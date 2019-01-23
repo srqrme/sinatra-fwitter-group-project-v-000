@@ -9,4 +9,11 @@ class TweetsController < ApplicationController
     end
   end
 
+  get '/tweets/new' do
+    if session[:user_id]
+      erb :'tweets/new_tweets'
+    else
+      redirect to '/login'
+    end
+  end
 end
