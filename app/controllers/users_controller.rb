@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
 
+  get '/users/:slug' do
+    @user = User.find_by_slug(params[:slug])
+    erb :'users/show'
+  end
 
 #Loads the signup page
   get '/signup' do
@@ -40,6 +44,15 @@ class UsersController < ApplicationController
       redirect "/tweets"
     else
       redirect '/signup'
+    end
+  end
+
+  get '/logout' do
+    unless session[:user_id] == nil
+      session.destroy
+      redirect to '/login'
+    else
+      redirect to '/'
     end
   end
 
