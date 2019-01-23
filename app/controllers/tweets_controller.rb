@@ -11,7 +11,7 @@ class TweetsController < ApplicationController
 
   get '/tweets/new' do
     if session[:user_id]
-      erb :'tweets/new_tweets'
+      erb :'tweets/new_tweet'
     else
       redirect to '/login'
     end
