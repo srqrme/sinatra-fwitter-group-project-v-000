@@ -1,5 +1,5 @@
 Welcome to your tweets, <%= current_user.username %>
 
-<% @tweets.each do |tweet| %>
+<% Tweet.all.each do |tweet| %>
   <%= tweet.content %>
 <% end %>
