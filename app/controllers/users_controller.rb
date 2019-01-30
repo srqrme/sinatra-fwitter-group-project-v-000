@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
 #Loads the signup page
   get '/signup' do
-    if !session[:user_id] == true
+    if !logged_in?
       erb :'users/signup'
     else
       redirect to '/tweets'
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
 #Does not let a logged in user view the signup page
   post '/signup' do
     if params[:username] == "" || params[:email] == "" || params[:password] == ""
-      redirect to 'users/signup'
+      redirect to '/signup'
     else
       @user = User.new(:username => params[:username], :email => params[:email], :password => params[:password])
       @user.save
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   
   #Loads the login page
   get '/login' do
-    if !session[:user_id]
+    if !logged_in?
       erb :'users/login'
     else
       redirect to '/tweets'
@@ -40,14 +40,14 @@ class UsersController < ApplicationController
     user = User.find_by(:username => params[:username])
 		if user && user.authenticate(params[:password])
 			session[:user_id] = user.id
-      redirect to '/tweets'
+      redirect to "/tweets"
     else
       redirect to '/login'
     end
   end
   
   get '/logout' do
-    if session[:user_id] != nil
+    if logged_in?
       session.clear
       redirect to '/login'
     else
